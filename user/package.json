@@ -1,0 +1,23 @@
+{
+  "name": "russian-typing-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "PORT=3001 nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "APP_ENV=production nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/style-resources": "^1.2.1",
+    "core-js": "^3.15.1",
+    "nuxt": "^2.15.7"
+  },
+  "devDependencies": {
+    "@nuxt/types": "^2.15.7",
+    "@nuxt/typescript-build": "^2.1.0",
+    "sass": "^1.52.1",
+    "sass-loader": "^10.2.1"
+  }
+}
