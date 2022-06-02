@@ -1,3 +1,7 @@
+const apiUri = process.env.APP_ENV === 'production'
+  ? 'https://russian-typing-api.herokuapp.com'
+  : 'http://localhost:8000'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -36,6 +40,10 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
   ],
+
+  env: {
+    apiUri,
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

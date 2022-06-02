@@ -18,10 +18,8 @@ export default ({
     async getWords () {
       console.log('pushed')
       try {
-        const apiUrl = process.env.APP_ENV === 'production'
-          ? 'https://russian-typing-api.herokuapp.com'
-          : 'http://localhost:8000'
-        const { data } = await this.$axios.$get(apiUrl + '/api/word')
+        console.log('USED: ' + process.env.apiUri)
+        const { data } = await this.$axios.$get(process.env.apiUri + '/api/word')
         this.words = data
       } catch (e) {
         console.log(e)
