@@ -16,7 +16,13 @@ textarea,textarea::placeholder,button {
   background: transparent;
   -webkit-appearance: none;
   -webkit-text-size-adjust: 100%;
-  font-family: "Noto Sans JP", "ヒラギノ角ゴシック", sans-serif!important;
+  // font-family: "Noto Sans JP", "ヒラギノ角ゴシック", sans-serif!important;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
 
 body {
