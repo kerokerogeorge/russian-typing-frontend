@@ -72,6 +72,7 @@
 
 <script>
 import keyData from '~/static/data/keys.json'
+import keyboardData from '~/static/data/keyboards.json'
 export default ({
   layout: 'gameLayout',
   data () {
@@ -80,46 +81,9 @@ export default ({
       active: false,
       keys: keyData,
       key: {
-        firstRow: [
-          { keyCode: 'KeyQ', cyrillic: 'й', alphabet: 'q'},
-          { keyCode: 'KeyW', cyrillic: 'ц', alphabet: 'w'},
-          { keyCode: 'KeyE', cyrillic: 'у', alphabet: 'e'},
-          { keyCode: 'KeyR', cyrillic: 'к', alphabet: 'r'},
-          { keyCode: 'KeyT', cyrillic: 'н', alphabet: 'y'},
-          { keyCode: 'KeyY', cyrillic: 'е', alphabet: 't'},
-          { keyCode: 'KeyU', cyrillic: 'г', alphabet: 'u'},
-          { keyCode: 'KeyI', cyrillic: 'ш', alphabet: 'i'},
-          { keyCode: 'KeyO', cyrillic: 'щ', alphabet: 'o'},
-          { keyCode: 'KeyP', cyrillic: 'з', alphabet: 'p'},
-          { keyCode: 'BracketLeft', cyrillic: 'х', alphabet: '['},
-          { keyCode: 'BracketRight', cyrillic: 'ъ', alphabet: ']'},
-          { keyCode: 'Backslash', cyrillic: 'ё', alphabet: '\\'}
-        ],
-        secondRow: [
-          { keyCode: 'KeyA', cyrillic: 'ф', alphabet: 'a'},
-          { keyCode: 'KeyS', cyrillic: 'ы', alphabet: 's'},
-          { keyCode: 'KeyD', cyrillic: 'в', alphabet: 'd'},
-          { keyCode: 'KeyF', cyrillic: 'а', alphabet: 'f'},
-          { keyCode: 'KeyG', cyrillic: 'п', alphabet: 'g'},
-          { keyCode: 'KeyH', cyrillic: 'р', alphabet: 'h'},
-          { keyCode: 'KeyJ', cyrillic: 'о', alphabet: 'j'},
-          { keyCode: 'KeyK', cyrillic: 'л', alphabet: 'k'},
-          { keyCode: 'KeyL', cyrillic: 'д', alphabet: 'l'},
-          { keyCode: 'Semicolon', cyrillic: 'ж', alphabet: ';'},
-          { keyCode: 'Quote', cyrillic: 'э', alphabet: '\''}
-        ],
-        thirdRow: [
-          { keyCode: 'KeyZ', cyrillic: 'я', alphabet: 'z'},
-          { keyCode: 'KeyX', cyrillic: 'ч', alphabet: 'x'},
-          { keyCode: 'KeyC', cyrillic: 'с', alphabet: 'c'},
-          { keyCode: 'KeyV', cyrillic: 'м', alphabet: 'v'},
-          { keyCode: 'KeyB', cyrillic: 'и', alphabet: 'b'},
-          { keyCode: 'KeyN', cyrillic: 'т', alphabet: 'n'},
-          { keyCode: 'KeyM', cyrillic: 'ь', alphabet: 'm'},
-          { keyCode: 'Comma', cyrillic: 'б', alphabet: ','},
-          { keyCode: 'Period', cyrillic: 'ю', alphabet: '.'},
-          { keyCode: 'Slash', cyrillic: '/', alphabet: '/'}
-        ],
+        firstRow: keyboardData[0].us.firstRow,
+        secondRow: keyboardData[0].us.secondRow,
+        thirdRow: keyboardData[0].us.thirdRow,
       },
       gameProperty: {
         started: false,
@@ -190,7 +154,7 @@ export default ({
       this.pressed = true
       if (this.gameProperty.started) {
         const letter = this.keys.find(key => key.keyCode === this.pressedKey)
-        if (this.word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
+        if (letter && this.word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
           this.gameProperty.currentLetterIndex += 1
           if (this.word.length === this.gameProperty.currentLetterIndex) {
             this.gameProperty.currentLetterIndex = 0
