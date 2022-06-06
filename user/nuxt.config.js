@@ -49,7 +49,14 @@ export default {
   modules: [
     '@nuxtjs/style-resources',
     '@nuxtjs/axios',
+    'nuxt-webfontloader',
   ],
+
+  webfontloader: {
+    google: {
+      families: ['Noto+Sans+JP:400,700', 'Source+Sans+Pro:400,700']
+    }
+  },
 
   axios: {
     // proxy: true
