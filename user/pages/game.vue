@@ -48,8 +48,12 @@
           <div class="column-attributes__container__box result">
             <div class="result__table">
               <div class="result__table__row">
-                <div class="content name"><p>ミスタイプの回数</p></div>
+                <div class="content name"><p>タイプミスの回数</p></div>
                 <div class="content value"><p>{{ gameProperty.miscount }}</p></div>
+              </div>
+              <div class="result__table__row">
+                <div class="content name"><p>正解数</p></div>
+                <div class="content value"><p>{{ gameProperty.correctCount }}</p></div>
               </div>
             </div>
           </div>
@@ -59,8 +63,20 @@
                 <p>前回の結果</p>
               </div>
               <div class="result__table__row">
-                <div class="content name"><p></p></div>
-                <div class="content value"><p></p></div>
+                <div class="content name"><p>タイプミスの回数</p></div>
+                <div class="content value"><p>{{ gameResult.miscount }}</p></div>
+              </div>
+              <div class="result__table__row">
+                <div class="content name"><p>正解数</p></div>
+                <div class="content value"><p>{{ gameResult.correctCount }}</p></div>
+              </div>
+              <div class="result__table__row">
+                <div class="content name"><p>正答率</p></div>
+                <div class="content value"><p>{{ gameResult.accuracy }} %</p></div>
+              </div>
+              <div class="result__table__row">
+                <div class="content name"><p>WPM</p></div>
+                <div class="content value"><p>{{ gameResult.wpm }}</p></div>
               </div>
             </div>
           </div>
@@ -92,7 +108,16 @@ export default ({
         miss: false,
         timer: null,
         time: 10,
-        miscount: 0
+        miscount: 0,
+        correctCount: 0,
+        accuracy: 0,
+        wpm: 0
+      },
+      gameResult: {
+        miscount: 0,
+        correctCount: 0,
+        accuracy: 0,
+        wpm: 0
       },
       pressedKey: null,
       pressed: false,
@@ -137,7 +162,10 @@ export default ({
         miss: false,
         timer: null,
         time: 20,
-        miscount: 0
+        miscount: 0,
+        correctCount: 0,
+        accuracy: 0,
+        wpm: 0
       })
     },
     start () {
@@ -148,6 +176,7 @@ export default ({
         if (this.gameProperty.time === 0) {
           clearInterval(this.gameProperty.timer)
           this.gameProperty.started = false
+          this.getResult()
         }
       }, 1000)
     },
@@ -159,6 +188,7 @@ export default ({
         if (letter && this.word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
           this.gameProperty.currentLetterIndex += 1
           if (this.word.length === this.gameProperty.currentLetterIndex) {
+            this.gameProperty.correctCount += 1
             this.updateWordBox()
           }
         } else {
@@ -167,16 +197,36 @@ export default ({
         }
       }
     },
+    onKeyUp(e) {
+      this.pressedKey = e.code
+      this.pressed = false
+    },
     updateWordBox () {
       this.gameProperty.miss = false
       this.gameProperty.currentLetterIndex = 0
       this.gameProperty.currentWordIndex += 1
       this.word = this.words[this.gameProperty.currentWordIndex]
     },
-    onKeyUp(e) {
-      this.pressedKey = e.code
-      this.pressed = false
+    getResult () {
+      this.gameProperty.accuracy = this.getAccuracy(this.gameProperty.correctCount, this.gameProperty.miscount)
+      this.gameProperty.wpm = this.getWPM(this.gameProperty.correctCount, this.gameProperty.miscount)
+      Object.assign(this.gameResult, {
+        miscount: this.gameProperty.miscount,
+        correctCount: this.gameProperty.correctCount,
+        accuracy: this.gameProperty.accuracy,
+        wpm: this.gameProperty.wpm
+      })
     },
+    getAccuracy (correctCount, mistakeCount) {
+      let num = (correctCount / (correctCount + mistakeCount)) * 100
+      let calculate = (Math.floor(num * 100)) / 100
+      return calculate
+    },
+    getWPM (correctCount, mistakeCount) {
+      let numerator = correctCount + mistakeCount;
+      let calResult = ( numerator / 20 ) * 60;
+      return calResult
+    }
 
   }
 })
