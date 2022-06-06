@@ -48,8 +48,8 @@
           <div class="column-attributes__container__box result">
             <div class="result__table">
               <div class="result__table__row">
-                <div class="content name"><p></p></div>
-                <div class="content value"><p></p></div>
+                <div class="content name"><p>ミスタイプの回数</p></div>
+                <div class="content value"><p>{{ gameProperty.miscount }}</p></div>
               </div>
             </div>
           </div>
@@ -92,6 +92,7 @@ export default ({
         miss: false,
         timer: null,
         time: 10,
+        miscount: 0
       },
       pressedKey: null,
       pressed: false,
@@ -135,7 +136,8 @@ export default ({
         currentWordIndex: 0,
         miss: false,
         timer: null,
-        time: 20
+        time: 20,
+        miscount: 0
       })
     },
     start () {
@@ -157,15 +159,19 @@ export default ({
         if (letter && this.word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
           this.gameProperty.currentLetterIndex += 1
           if (this.word.length === this.gameProperty.currentLetterIndex) {
-            this.gameProperty.currentLetterIndex = 0
-            this.gameProperty.miss = false
-            this.gameProperty.currentWordIndex += 1
-            this.word = this.words[this.gameProperty.currentWordIndex]
+            this.updateWordBox()
           }
         } else {
           this.gameProperty.miss = true
+          this.gameProperty.miscount += 1
         }
       }
+    },
+    updateWordBox () {
+      this.gameProperty.miss = false
+      this.gameProperty.currentLetterIndex = 0
+      this.gameProperty.currentWordIndex += 1
+      this.word = this.words[this.gameProperty.currentWordIndex]
     },
     onKeyUp(e) {
       this.pressedKey = e.code
