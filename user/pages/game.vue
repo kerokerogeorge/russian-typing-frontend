@@ -32,6 +32,27 @@
               </div>
             </div>
           </div>
+          <div class="column-game__content-box__content words-section">
+            <div class="words-section__table">
+              <div class="words-section__table__header words-section__table__row">
+                <div class="cell-number" />
+                <div class="cell-word">単語</div>
+                <div class="cell-definition">意味</div>
+              </div>
+              <!-- <div class="words-section__table__row">
+                <div class="cell-number">1
+                </div>
+                <div class="cell-word">
+                  <p>worasdgasdgasgaslgjasdgjd</p>
+                </div>
+                <div class="cell-definition">
+                  <p>
+                    単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp単語タンgp
+                  </p>
+                </div>
+              </div> -->
+            </div>
+          </div>
         </div>
       </div>
       <div class="column-attributes">
@@ -383,6 +404,57 @@ export default ({
             }
           }
         }
+
+        .words-section {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: white;
+          box-shadow: $box-shadow-base;
+          border-radius: $border-radius;
+          // width: 100%;
+          &__table {
+            width: 100%;
+            // background-color: #2EC262;
+
+            // &__header {
+            //   display: flex;
+            //   justify-content: center;
+            //   align-items: center;
+            // }
+            &__header {
+              color: $gray-500;
+              border-bottom: 1px solid rgba(209, 213, 219, 1);
+            }
+            &__row {
+              display: flex;
+              align-items: center;
+              padding: 20px 0;
+              .cell-number {
+                width: 40px;
+                padding-left: 15px;
+              }
+              .cell-word {
+                width: 150px;
+                padding: 0 10px;
+                p {
+                  font-size: 16px;
+                  overflow-wrap: break-word;
+                  word-wrap: break-word;
+                 }
+              }
+              .cell-definition {
+                width: 490px;
+                padding: 0 10px;
+                p {
+                  font-size: 14px;
+                  overflow-wrap: break-word;
+                  word-wrap: break-word;
+                }
+              }
+            }
+          }
+        }
       }
     }
     .column-attributes {
@@ -443,8 +515,18 @@ export default ({
                 }
               }
 
-              .name { width: 70%; }
-              .value { width: 30%; }
+              .name {
+                width: 70%;
+                p {
+                  font-size: 14px;
+                }
+              }
+              .value {
+                width: 30%;
+                p {
+                  font-size: 14px;
+                }
+              }
             }
           }
         }
