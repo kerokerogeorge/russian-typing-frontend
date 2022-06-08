@@ -1,5 +1,9 @@
 <template>
-  <div class="header">header</div>
+  <div class="header">
+    <div class="logo-section">
+      <img src="~/assets/image/title.svg" alt="">
+    </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -26,5 +30,16 @@
   box-shadow: $box-shadow-base;
   position: fixed;
   z-index: 15;
+  display: flex;
+  align-items: center;
+  .logo-section {
+    margin: 0 0 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 80%;
+    }
+  }
 }
 </style>
