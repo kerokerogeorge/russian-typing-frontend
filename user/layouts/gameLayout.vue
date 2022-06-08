@@ -8,16 +8,15 @@
         <CommonSidebar />
       </div>
       <main>
-      <Nuxt/>
+      <Nuxt />
       </main>
     </div>
   </div>
 </template>
 
-
 <style lang="scss" scoped>
 .main-section {
-  height: 100vh;
+  min-height: 100vh;
   background-color: #EBEFF2;
 }
 </style>
