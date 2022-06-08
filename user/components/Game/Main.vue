@@ -39,8 +39,8 @@
                 <div class="cell-word">単語</div>
                 <div class="cell-definition">意味</div>
               </div>
-              <template v-if="apiWords.length > 0">
-                <div v-for="(word, index) in apiWords" :key="index" class="words-section__table__row">
+              <template v-if="gameResult.correctWords.length > 0">
+                <div v-for="(word, index) in gameResult.correctWords" :key="index" class="words-section__table__row">
                 <div class="cell-number">
                   {{ index + 1 }}
                 </div>
@@ -68,6 +68,7 @@
 <script>
 import keyData from '~/static/data/keys.json'
 import keyboardData from '~/static/data/keyboards.json'
+import wordsData from '~/static/data/words.json'
 export default ({
   props: {
     gameType: {
@@ -95,18 +96,20 @@ export default ({
         miscount: 0,
         correctCount: 0,
         accuracy: 0,
-        wpm: 0
+        wpm: 0,
+        correctWords: []
       },
       gameResult: {
         miscount: 0,
         correctCount: 0,
         accuracy: 0,
-        wpm: 0
+        wpm: 0,
+        correctWords: []
       },
       pressedKey: null,
       pressed: false,
       word: 'ладно',
-      words: ['ладно', 'рус', 'вав', 'фылдпо', 'пфывп'],
+      words: wordsData,
       apiWords: [],
       questionsList: [],
     }
@@ -119,13 +122,13 @@ export default ({
       return this.pressed
     },
     CorrectLetter () {
-      return this.word.slice(0, this.gameProperty.currentLetterIndex)
+      return this.word.text.slice(0, this.gameProperty.currentLetterIndex)
     },
     CurrentLetter () {
-      return this.gameType === 'letter' ? this.word : this.word[this.gameProperty.currentLetterIndex]
+      return this.gameType === 'letter' ? this.word.text : this.word.text[this.gameProperty.currentLetterIndex]
     },
     RemainingLetter () {
-      return this.word.slice(this.gameProperty.currentLetterIndex + 1)
+      return this.word.text.slice(this.gameProperty.currentLetterIndex + 1)
     },
     GameType () {
       console.log(this.gameType)
@@ -155,7 +158,8 @@ export default ({
         miscount: 0,
         correctCount: 0,
         accuracy: 0,
-        wpm: 0
+        wpm: 0,
+        correctWords: []
       })
     },
     start () {
@@ -194,10 +198,12 @@ export default ({
       this.pressed = true
       if (this.gameProperty.started) {
         const letter = this.keys.find(key => key.keyCode === this.pressedKey)
-        if (letter && this.word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
+        if (letter && this.word.text[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
           this.gameProperty.currentLetterIndex += 1
-          if (this.word.length === this.gameProperty.currentLetterIndex) {
+          if (this.word.text.length === this.gameProperty.currentLetterIndex) {
             this.gameProperty.correctCount += 1
+            this.gameProperty.correctWords.push(this.word)
+            console.log(this.gameProperty.correctWords)
             this.updateWordBox()
           }
         } else {
@@ -225,7 +231,8 @@ export default ({
         miscount: this.gameProperty.miscount,
         correctCount: this.gameProperty.correctCount,
         accuracy: this.gameProperty.accuracy,
-        wpm: this.gameProperty.wpm
+        wpm: this.gameProperty.wpm,
+        correctWords: this.gameProperty.correctWords
       })
     },
     getAccuracy (correctCount, mistakeCount) {
@@ -339,7 +346,8 @@ export default ({
                 width: 150px;
                 padding: 0 10px;
                 p {
-                  font-size: 16px;
+                  font-family: 'Source Sans Pro', sans-serif;
+                  font-size: 18px;
                   overflow-wrap: break-word;
                   word-wrap: break-word;
                  }
