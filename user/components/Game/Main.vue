@@ -21,7 +21,7 @@
               </p>
             </div>
           </div>
-          <div class="column-game__content-box__content">
+          <div class="column-game__content-box__content keyboard-section">
             <GameKeyboard
               :first-row-keys="key.firstRow"
               :second-row-keys="key.secondRow"
@@ -66,6 +66,7 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
 import keyData from '~/static/data/keys.json'
 import keyboardData from '~/static/data/keyboards.json'
 import wordsData from '~/static/data/words.json'
@@ -106,15 +107,19 @@ export default ({
         wpm: 0,
         correctWords: []
       },
+      isResetted: false,
       pressedKey: null,
       pressed: false,
-      word: 'ладно',
+      word: '',
       words: wordsData,
       apiWords: [],
       questionsList: [],
     }
   },
   computed: {
+    ...mapGetters('game', [
+      'status',
+    ]),
     PressedKey () {
       return this.pressedKey
     },
@@ -125,13 +130,16 @@ export default ({
       return this.word.text.slice(0, this.gameProperty.currentLetterIndex)
     },
     CurrentLetter () {
-      return this.gameType === 'letter' ? this.word.text : this.word.text[this.gameProperty.currentLetterIndex]
+      // return this.gameType === 'letter' ? this.word : this.word.text[this.gameProperty.currentLetterIndex]
+      return this.word.text[this.gameProperty.currentLetterIndex]
     },
     RemainingLetter () {
       return this.word.text.slice(this.gameProperty.currentLetterIndex + 1)
     },
     GameType () {
-      console.log(this.gameType)
+      if (this.status === 'sidebar') {
+        this.resetGame()
+      }
       return this.gameType
     }
   },
@@ -140,16 +148,30 @@ export default ({
     document.addEventListener('keyup', this.onKeyUp)
   },
   beforeDestroy() {
-    document.removeEventListener('keydown', this.onKeyDown)
-    document.removeEventListener('keyup', this.onKeyUp)
+    this.removeEventListeners()
   },
   methods: {
+    ...mapActions('game', [
+      'updateStatus'
+    ]),
     toggle () {
       this.show = !this.show
     },
-    setGame () {
+    removeEventListeners () {
+      document.removeEventListener('keydown', this.onKeyDown)
+      document.removeEventListener('keyup', this.onKeyUp)
+    },
+    clearTime(timer) {
+      clearInterval(timer)
+    },
+    resetGame () {
+      clearInterval(this.gameProperty.timer)
+      this.isResetted = true
+      this.setGame({ start: false })
+    },
+    setGame (gameHandler) {
       Object.assign(this.gameProperty, {
-        started: true,
+        started: gameHandler.start,
         currentLetterIndex: 0,
         currentWordIndex: 0,
         miss: false,
@@ -163,22 +185,25 @@ export default ({
       })
     },
     start () {
-      this.setGame()
+      this.updateStatus({type: 'startGame'})
+      this.setGame({ start: true })
       this.questionsList = this.setQuestion()
       const questionIndex = Math.floor(Math.random() * this.questionsList.length)
       this.word = this.questionsList[questionIndex]
       this.gameProperty.timer = setInterval(() => {
-        this.gameProperty.time -= 1
-        if (this.gameProperty.time === 0) {
-          clearInterval(this.gameProperty.timer)
-          this.gameProperty.started = false
-          this.getResult()
+        if (this.gameProperty.started) {
+          this.gameProperty.time -= 1
+          if (this.gameProperty.time === 0) {
+            this.clearTime(this.gameProperty.timer)
+            this.gameProperty.started = false
+            this.getResult()
+          }
         }
       }, 1000)
     },
     setQuestion () {
       if (this.gameType === 'letter') {
-        return this.keys.map(key => key.cyrillic)
+        return this.keys
       }
       if (this.gameType === 'level-one') {
         return this.words
@@ -198,11 +223,12 @@ export default ({
       this.pressed = true
       if (this.gameProperty.started) {
         const letter = this.keys.find(key => key.keyCode === this.pressedKey)
-        if (letter && this.word.text[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
+        const word = this.word.text
+        if (letter && word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
           this.gameProperty.currentLetterIndex += 1
-          if (this.word.text.length === this.gameProperty.currentLetterIndex) {
+          if (word.length === this.gameProperty.currentLetterIndex) {
             this.gameProperty.correctCount += 1
-            this.gameProperty.correctWords.push(this.word)
+            this.gameProperty.correctWords.push(word)
             console.log(this.gameProperty.correctWords)
             this.updateWordBox()
           }
@@ -259,26 +285,49 @@ export default ({
 </script>
 
 <style lang="scss" scoped>
+@mixin pcM {
+  @media (max-width: ($pcM)) { @content; }
+}
+@mixin tab {
+  @media (max-width: ($tab)) { @content; }
+}
+@mixin sp {
+  @media (max-width: ($sp)) { @content; }
+}
 .game {
   padding: $header-height 0 0 $sidebar-width-base;
   height: 100%;
   width: 100%;
+  @include tab {
+    padding: $header-height 0 0 0;
+  }
 
   &__container {
     margin: 10px;
     display: flex;
+    @include tab {
+      flex-direction: column;
+    }
 
     .column-game {
       width: 70%;
       // background-color: rgb(214, 127, 255);
       display: flex;
       justify-content: flex-end;
+      @include tab {
+        width: 100%;
+        justify-content: center;
+      }
       &__content-box {
         width: 740px;
-        // background-color: rgb(129, 127, 255);
-
+        @include tab {
+          width: 100%;
+        }
         &__content {
           margin: 30px 30px;
+          @include sp {
+            margin: 30px 15px;
+          }
         }
 
         .game-section {
@@ -299,6 +348,9 @@ export default ({
               font-size: 44px;
               color: rgba(75, 85, 99, 1);
               font-weight: 500;
+              @include tab {
+                font-size: 24px;
+              }
               &:hover {
                 opacity: .7;
               }
@@ -318,6 +370,11 @@ export default ({
           }
 
         }
+        .keyboard-section {
+          @include sp {
+            display: none;
+          }
+        }
 
         .words-section {
           display: flex;
@@ -326,7 +383,6 @@ export default ({
           background-color: white;
           box-shadow: $box-shadow-base;
           border-radius: $border-radius;
-          // width: 100%;
           &__table {
             width: 100%;
             // background-color: #2EC262;
@@ -368,6 +424,10 @@ export default ({
     }
     .column-attributes {
       width: 30%;
+      @include tab {
+        width: 100%;
+        justify-content: center;
+      }
     }
   }
 }
