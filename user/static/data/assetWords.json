@@ -1,0 +1,10 @@
+[
+  { "text": "у́голь", "type": "существи́тельное", "meaning": "炭，石炭", "description": "ка́менный у́голь", "position": 1, "color": "YELLOW"},
+  { "text": "изнутри́", "type": "наречие", "meaning": "内部から", "description": "Две́рь за́перта изнутри́.", "position": 3, "color": "WHITE"},
+  { "text": "контро́ль", "type": "существи́тельное", "meaning": "〈生/за造/над造〉…に対する監視，監督", "description": "теря́ть контро́ль над собо́й", "position": 2, "color": "PURPLE"},
+  { "text": "линко́р", "type": "существи́тельное", "meaning": "戦艦", "description": "лине́йный кора́бль", "position": 1, "color": "YELLOW"},
+  { "text": "дли́ться", "type": "глагол", "meaning": "継続する", "description": "/продли́ться", "position": 3, "color": "PURPLE"},
+  { "text": "ка́к ра́з", "type": "-", "meaning": "⑴ちょうど ⑵ちょうどよい時に", "description": "Э́то ка́к ра́з то́, что̀ я́ хоте́л узна́ть.", "position": 1, "color": "YELLOW"},
+  { "text": "встреча́ть", "type": "глагол", "meaning": "…に会う，出くわす", "description": "meet, come across", "position": 2, "color": "WHITE"},
+  { "text": "дотла́", "type": "наречие", "meaning": "ことごとく，すっかり", "description": "-", "position": 3, "color": "PURPLE"}
+]
