@@ -1,7 +1,9 @@
 <template>
   <div class="header">
     <div class="logo-section">
-      <img src="~/assets/image/title.svg" alt="">
+      <NuxtLink :to="{'path':'/'}">
+        <img src="~/assets/image/title.svg" alt="">
+      </NuxtLink>
     </div>
   </div>
 </template>
