@@ -6,24 +6,24 @@
           一文字練習
         </NuxtLink>
       </div>
-      <div class="sidebar__container__content" :class="{'current': $route.query.type === 'level-one'}" @click="update">
+      <!-- <div class="sidebar__container__content" :class="{'current': $route.query.type === 'level-one'}" @click="update">
         <NuxtLink :to="{'path':'/game', 'query':{type: 'level-one'}}">
           <span class="main">レベル1</span>
           <span class="sub">（~4文字）</span>
         </NuxtLink>
-      </div>
+      </div> -->
       <div class="sidebar__container__content" :class="{'current': $route.query.type === 'level-two'}" @click="update">
         <NuxtLink :to="{'path':'/game', 'query':{type: 'level-two'}}">
           <span class="main">レベル2</span>
           <span class="sub">（5~7文字）</span>
         </NuxtLink>
       </div>
-      <div class="sidebar__container__content" :class="{'current': $route.query.type === 'level-three'}" @click="update">
+      <!-- <div class="sidebar__container__content" :class="{'current': $route.query.type === 'level-three'}" @click="update">
         <NuxtLink :to="{'path':'/game', 'query':{type: 'level-three'}}">
           <span class="main">レベル3</span>
           <span class="sub">（8~10文字）</span>
         </NuxtLink>
-      </div>
+      </div> -->
       <!-- <div class="sidebar__container__content" :class="{'current': $route.query.type === 'level-four'}" @click="update">
         <NuxtLink :to="{'path':'/game', 'query':{type: 'level-four'}}">
           レベル4（11文字以上）

@@ -127,14 +127,26 @@ export default ({
       return this.pressed
     },
     CorrectLetter () {
-      return this.word.text.slice(0, this.gameProperty.currentLetterIndex)
+      let word = this.word
+      if (word) {
+        word = this.word.text.slice(0, this.gameProperty.currentLetterIndex)
+      }
+      return word
     },
     CurrentLetter () {
       // return this.gameType === 'letter' ? this.word : this.word.text[this.gameProperty.currentLetterIndex]
-      return this.word.text[this.gameProperty.currentLetterIndex]
+      let word = this.word
+      if (word) {
+        word = this.word.text[this.gameProperty.currentLetterIndex]
+      }
+      return word
     },
     RemainingLetter () {
-      return this.word.text.slice(this.gameProperty.currentLetterIndex + 1)
+      let word = this.word
+      if (word) {
+        word = this.word.text.slice(this.gameProperty.currentLetterIndex + 1)
+      }
+      return word
     },
     GameType () {
       if (this.status === 'sidebar') {
@@ -184,10 +196,11 @@ export default ({
         correctWords: []
       })
     },
-    start () {
+    async start () {
       this.updateStatus({type: 'startGame'})
       this.setGame({ start: true })
-      this.questionsList = this.setQuestion()
+      this.questionsList = await this.setQuestion()
+      console.log(this.questionsList)
       const questionIndex = Math.floor(Math.random() * this.questionsList.length)
       this.word = this.questionsList[questionIndex]
       this.gameProperty.timer = setInterval(() => {
@@ -201,23 +214,62 @@ export default ({
         }
       }, 1000)
     },
-    setQuestion () {
-      if (this.gameType === 'letter') {
-        return this.keys
-      }
-      if (this.gameType === 'level-one') {
-        return this.words
-      }
-      if (this.gameType === 'level-two') {
-        return this.words
-      }
-      if (this.gameType === 'level-three') {
-        return this.words
-      }
-      if (this.gameType === 'sentence') {
-        return this.sentences
+    async setQuestion () {
+      try {
+        if (this.gameType === 'letter') {
+          return this.keys
+        }
+        if (this.gameType === 'level-one') {
+          return this.words
+        }
+        if (this.gameType === 'level-two') {
+          const words = await this.getWords()
+          return words
+        }
+        if (this.gameType === 'level-three') {
+          return this.words
+        }
+        if (this.gameType === 'sentence') {
+          return this.sentences
+        }
+      } catch (e) {
+        console.log(e)
       }
     },
+    // start () {
+    //   this.updateStatus({type: 'startGame'})
+    //   this.setGame({ start: true })
+    //   this.questionsList = this.setQuestion()
+    //   const questionIndex = Math.floor(Math.random() * this.questionsList.length)
+    //   this.word = this.questionsList[questionIndex]
+    //   this.gameProperty.timer = setInterval(() => {
+    //     if (this.gameProperty.started) {
+    //       this.gameProperty.time -= 1
+    //       if (this.gameProperty.time === 0) {
+    //         this.clearTime(this.gameProperty.timer)
+    //         this.gameProperty.started = false
+    //         this.getResult()
+    //       }
+    //     }
+    //   }, 1000)
+    // },
+    // setQuestion () {
+    //     if (this.gameType === 'letter') {
+    //       return this.keys
+    //     }
+    //     if (this.gameType === 'level-one') {
+    //       return this.words
+    //     }
+    //     if (this.gameType === 'level-two') {
+    //       return this.words
+    //     }
+    //     if (this.gameType === 'level-three') {
+    //       return this.words
+    //     }
+    //     if (this.gameType === 'sentence') {
+    //       return this.sentences
+    //     }
+    // },
     onKeyDown(e) {
       this.pressedKey = e.code
       this.pressed = true
@@ -275,7 +327,7 @@ export default ({
       try {
         // console.log('USED: ' + process.env.apiUri)
         const { data } = await this.$axios.$get(process.env.apiUri + '/api/word')
-        this.apiWords = data
+        return data
       } catch (e) {
         console.log(e)
       }
