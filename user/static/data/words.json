@@ -1,12 +1,9 @@
 [
-  { "text": "лувп", "definition": "1"},
-  { "text": "лпфуп", "definition": "2test"},
-  { "text": "лччуп", "definition": "3test"},
-  { "text": "лпвпуп", "definition": "4test"},
-  { "text": "лупрцукп", "definition": "5test"},
-  { "text": "луыпп", "definition": "6test"},
-  { "text": "луцнп", "definition": "7test"},
-  { "text": "лнцуп", "definition": "8test"},
-  { "text": "лнуп", "definition": "9test"},
-  { "text": "лумиьп", "definition": "10test"}
+  { "text": "белый", "definition": "白", "type": "level2"},
+  { "text": "билет", "definition": "切符", "type": "level2"},
+  { "text": "аптека", "definition": "薬局", "type": "level2"},
+  { "text": "город", "definition": "町", "type": "level2"},
+  { "text": "иголка", "definition": "針", "type": "level2"},
+  { "text": "здесь", "definition": "ここで", "type": "level2"},
+  { "text": "запах", "definition": "匂い", "type": "level2"}
 ]
