@@ -93,7 +93,7 @@ export default ({
         currentWordIndex: 0,
         miss: false,
         timer: null,
-        time: 10,
+        time: 30,
         miscount: 0,
         correctCount: 0,
         accuracy: 0,
@@ -176,7 +176,7 @@ export default ({
         currentWordIndex: 0,
         miss: false,
         timer: null,
-        time: 20,
+        time: 30,
         miscount: 0,
         correctCount: 0,
         accuracy: 0,
@@ -223,10 +223,10 @@ export default ({
       this.pressed = true
       if (this.gameProperty.started) {
         const letter = this.keys.find(key => key.keyCode === this.pressedKey)
-        const word = this.word.text
-        if (letter && word[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
+        const word = this.word
+        if (letter && word.text[this.gameProperty.currentLetterIndex] === letter.cyrillic) {
           this.gameProperty.currentLetterIndex += 1
-          if (word.length === this.gameProperty.currentLetterIndex) {
+          if (word.text.length === this.gameProperty.currentLetterIndex) {
             this.gameProperty.correctCount += 1
             this.gameProperty.correctWords.push(word)
             console.log(this.gameProperty.correctWords)
